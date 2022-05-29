@@ -1,0 +1,35 @@
+spring:
+  security:
+    oauth2:
+      client:
+        resourceserver:
+          jwt:
+            issuer-id: http://localhost:8180/auth/realms/Microservices-realm
+
+cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: 'true'
+          lower-case-service-id: 'true'
+      routes[0]:
+        id: order-service
+        uri: lb://order-service
+        predicates[0]: Path=/api/order
+      routes[1]:
+        uri: lb://inventory-service
+        id: inventory-service
+        predicates[0]: Path=/api/inventory
+      routes[2]:
+        id: discovery-server
+        uri: http://localhost:8781
+        predicates[0]: Path=/eureka/web
+        filter[0]: SetPath=/
+  application:
+    name: api-gateway
+eureka:
+  instance:
+    instance-id: ${spring.application.name}:${random.UUID}
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
