@@ -28,11 +28,10 @@ public class OrderService {
 
     @Transactional
     public String placeOrder(OrderRequest orderRequest) {
-       // Resilience4JCircuitBreaker circuitBreaker = circuitBreakerFactory.create("inventory");
+
         OrderMapper orderMapper = new OrderMapper();
         List<String> skuCodes = orderRequest.getOrderItemsDtoList().stream().map(OrderItemsDto::getSkuCode).toList();
         boolean productsInStock = inventoryClient.isInStock(skuCodes).stream().allMatch(InventoryResponse::isInStock);
-        // = circuitBreaker.run(productSupplier, throwable -> false);
         System.out.println(productsInStock);
         if (productsInStock) {
             orderRepository.save(orderMapper.map(orderRequest));
@@ -41,6 +40,8 @@ public class OrderService {
             return "Order Failed, not in stock.";
 
     }
+
+
 
 }
 
