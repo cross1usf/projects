@@ -1,5 +1,6 @@
 package cross1usf.customerservice.service;
 
+import cross1usf.customerservice.client.SavingsClient;
 import cross1usf.customerservice.dto.RegisterRequest;
 import cross1usf.customerservice.mappers.RegisterMapper;
 import cross1usf.customerservice.model.Address;
@@ -15,13 +16,16 @@ public class CustomerService {
     private final CustomerRepository customerRepository;
     private final RegisterMapper registerMapper;
     private final AddressRepository addressRepository;
+    private final SavingsClient savingsClient;
 
-    public CustomerService(CustomerRepository customerRepository, RegisterMapper registerMapper, AddressRepository addressRepository) {
+    public CustomerService(CustomerRepository customerRepository, RegisterMapper registerMapper, AddressRepository addressRepository, SavingsClient savingsClient) {
         this.customerRepository = customerRepository;
         this.registerMapper = registerMapper;
         this.addressRepository = addressRepository;
+        this.savingsClient = savingsClient;
     }
-    @Transactional
+
+
     public void register(RegisterRequest registerRequest) {
         Customer customer = registerMapper.mapCustomer(registerRequest);
         customerRepository.save(customer);
@@ -29,6 +33,11 @@ public class CustomerService {
         addressRepository.save(address);*/
 
     }
+
+
+
+
+
 
 
 }
