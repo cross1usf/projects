@@ -1,6 +1,7 @@
 package cross1usf.orderservice.model;
 
 import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.*;
@@ -24,6 +25,5 @@ public class Order {
 
     @OneToMany(cascade = CascadeType.ALL)
     private List<OrderItems> orderItemsList;
-
 
 }
